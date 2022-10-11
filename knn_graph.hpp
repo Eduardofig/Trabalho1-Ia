@@ -1,3 +1,5 @@
+#pragma once
+
 #include <utility>
 #include <vector>
 
@@ -12,5 +14,3 @@ class knn_graph
 
         knn_graph(int n, int k);
 };
-
-

@@ -1,5 +1,8 @@
+#pragma once
+
 #include <cmath>
 #include <queue>
 #include "knn_graph.hpp"
+#include "search.hpp"
 
-std::vector<double> astar(knn_graph &g, int st);
+std::pair<std::vector<double>, double> search::astar(knn_graph &g, int st, int target);
