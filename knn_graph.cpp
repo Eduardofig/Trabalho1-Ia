@@ -4,6 +4,7 @@
 #include <math.h>
 
 #include "knn_graph.hpp"
+#include "aux.hpp"
 
 void knn_graph::gen_vertices(int n)
 {
@@ -30,17 +31,6 @@ void knn_graph::gen_edges(int k)
 
     std::set<std::pair<int, int>> used;
 
-    const auto &vref = this->vertices;
-    const auto dist = [vref](const int from, const int to) {
-        const int x1 = vref[from].first, y1 = vref[from].second;
-        const int x2 = vref[to].first, y2 = vref[to].second;
-
-        const double delta_x = x2 - x1;
-        const double delta_y = y2 - y1;
-
-        return sqrt(delta_x * delta_x + delta_y * delta_y);
-    };
-
     int n = this->vertices.size();
     for(int from = 0; from < n; ++from) {
         this->edges[from].clear();
@@ -53,7 +43,7 @@ void knn_graph::gen_edges(int k)
                 used.insert({from, to});
                 used.insert({to, from});
 
-                const double weight = dist(from, to);
+                const double weight = aux::dist(from, to, this->vertices);
 
                 this->edges[from].emplace_back(to, weight);
                 this->edges[to].emplace_back(from, weight);

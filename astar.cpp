@@ -1,4 +1,4 @@
-#include "best_first.hpp"
+#include "astar.hpp"
 #include "aux.hpp"
 
 std::vector<double> best_first(knn_graph &g, int st, int target)
@@ -22,7 +22,7 @@ std::vector<double> best_first(knn_graph &g, int st, int target)
         for(auto &[next, weight]: g.edges[curr]) {
             if(dist[next] == -1) {
                 dist[next] = dist[curr] + weight;
-                pq.emplace(aux::dist(next, target, g.vertices), next);
+                pq.emplace(aux::dist(next, st, g.vertices) + aux::dist(next, target, g.vertices), next);
             }
         }
     }
