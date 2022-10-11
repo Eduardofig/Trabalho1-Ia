@@ -28,7 +28,7 @@ std::pair<std::vector<double>, double> search::dijkstra(knn_graph &g, int st, in
         }
 
         for(auto &[next, weight]: g.edges[curr]) {
-            if(dist[next] == -1.0) {
+            if(dist[next] == -1.0 || dist[next] > dist[curr] + weight) {
                 dist[next] = dist[curr] + weight;
                 walked_increment[next] = weight;
 
