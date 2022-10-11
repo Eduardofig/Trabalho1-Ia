@@ -3,6 +3,7 @@
 #include <cmath>
 #include <vector>
 #include <utility>
+#include <algorithm>
 
 namespace aux
 {

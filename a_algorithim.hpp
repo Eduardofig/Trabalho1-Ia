@@ -5,4 +5,4 @@
 #include "knn_graph.hpp"
 #include "search.hpp"
 
-std::pair<std::vector<double>, double> search::a_algorithim(knn_graph &g, int st);
+std::pair<std::vector<int>, double> search::a_algorithim(knn_graph &g, int st);

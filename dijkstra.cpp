@@ -1,6 +1,6 @@
 #include "dijkstra.hpp"
 
-std::pair<std::vector<double>, double> search::dijkstra(knn_graph &g, int st, int target)
+std::pair<std::vector<int>, double> search::dijkstra(knn_graph &g, int st, int target)
 {
     int n = g.vertices.size();
     std::priority_queue<
@@ -11,9 +11,12 @@ std::pair<std::vector<double>, double> search::dijkstra(knn_graph &g, int st, in
 
     std::vector<double> dist(n, -1.0);
     std::vector<double> walked_increment(n, 0.0);
+    std::vector<int> par(n, -1);
+
 
     pq.emplace(0.0, st);
     dist[st] = 0.0;
+    par[st] = st;
 
     double walked = 0.0;
     while(!pq.empty()) {
@@ -30,6 +33,7 @@ std::pair<std::vector<double>, double> search::dijkstra(knn_graph &g, int st, in
         for(auto &[next, weight]: g.edges[curr]) {
             if(dist[next] == -1.0 || dist[next] > dist[curr] + weight) {
                 dist[next] = dist[curr] + weight;
+                par[next] = curr;
                 walked_increment[next] = weight;
 
                 pq.emplace(dist[next], next);
@@ -37,5 +41,17 @@ std::pair<std::vector<double>, double> search::dijkstra(knn_graph &g, int st, in
         }
     }
 
-    return std::make_pair(dist, walked);
+    std::vector<int> path;
+
+    int curr = target;
+    path.push_back(target);
+
+    while(curr != st) {
+        path.push_back(par[curr]);
+        curr = par[curr];
+    }
+
+    std::reverse(path.begin(), path.end());
+
+    return std::make_pair(path, walked);
 }
