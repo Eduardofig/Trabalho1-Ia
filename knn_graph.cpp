@@ -44,6 +44,8 @@ void knn_graph::gen_edges(int k)
     int n = this->vertices.size();
     for(int from = 0; from < n; ++from) {
         this->edges[from].clear();
+
+        // Each node has k bidirectional edges
         while(this->edges[from].size() < k) {
             int to = std::rand() % n;
 

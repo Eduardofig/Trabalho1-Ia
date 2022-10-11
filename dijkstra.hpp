@@ -2,4 +2,4 @@
 #include <cmath>
 #include <queue>
 
-void dijkstra(knn_graph &g, int st);
+std::vector<double> dijkstra(knn_graph &g, int st);
