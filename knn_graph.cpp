@@ -13,7 +13,7 @@ void knn_graph::gen_vertices(int n)
 
     int m = 0;
     while(this->vertices.size() < n) {
-        std::pair<int, int> pos = {std::rand() % n, std::rand() % n};
+        std::pair<int, int> pos = std::make_pair(std::rand() % n, std::rand() % n);
 
         if(used.find(pos) == used.end()) {
             used.insert(pos);
@@ -30,6 +30,8 @@ void knn_graph::gen_edges(int k)
     }
 
     std::set<std::pair<int, int>> used;
+
+#warning Ver com alneu se pode ter mais de uma aresta conectando 2 vertices
 
     int n = this->vertices.size();
     for(int from = 0; from < n; ++from) {
