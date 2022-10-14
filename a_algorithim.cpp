@@ -1,7 +1,8 @@
+#include "search.hpp"
 #include "a_algorithim.hpp"
 #include "aux.hpp"
 
-std::pair<std::vector<int>, double> search::best_first(knn_graph &graph, int st, int target)
+std::pair<std::vector<int>, double> search::a_algorithm(knn_graph &graph, int st, int target)
 {
     int n = graph.vertices.size();
     std::priority_queue<
