@@ -13,4 +13,8 @@ class knn_graph
         void gen_edges(int k);
 
         knn_graph(int n, int k);
+        knn_graph();
+
+        void print_graph();
+        void print_edges();
 };

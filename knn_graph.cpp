@@ -29,11 +29,9 @@ void knn_graph::gen_edges(int k)
         return;
     }
 
-    std::set<std::pair<int, int>> used;
-
-#warning Ver com alneu se pode ter mais de uma aresta conectando 2 vertices
-
     int n = this->vertices.size();
+    this->edges.resize(n);
+
     for(int from = 0; from < n; ++from) {
         this->edges[from].clear();
 
@@ -41,10 +39,7 @@ void knn_graph::gen_edges(int k)
         while(this->edges[from].size() < k) {
             int to = std::rand() % n;
 
-            if(used.find({from, to}) == used.end()) {
-                used.insert({from, to});
-                used.insert({to, from});
-
+            if(from != to) {
                 const double weight = aux::dist(from, to, this->vertices);
 
                 this->edges[from].emplace_back(to, weight);
@@ -59,4 +54,29 @@ knn_graph::knn_graph(int n, int k)
 {
     this->gen_vertices(n);
     this->gen_edges(k);
+}
+
+knn_graph::knn_graph()
+{
+
+}
+
+void knn_graph::print_graph()
+{
+    int n = this->vertices.size();
+    for(int i = 0; i < n; ++i) {
+        auto &[x, y] = this->vertices[i];
+        std::cout << "Node: " << i + 1 << ", Point: (x: " << x << "," << " y: " << y << ")" << '\n';
+    }
+}
+
+void knn_graph::print_edges()
+{
+    int n = this->vertices.size();
+    std::cout << "Edges: \n";
+    for(int from = 0; from < n; ++from) {
+        for(auto &[to, weight]: this->edges[from]) {
+            std::cout << (from + 1) << "----->" << (to + 1) << " weight: " << weight << '\n';
+        }
+    }
 }
