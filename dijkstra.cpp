@@ -9,7 +9,7 @@ std::pair<std::vector<int>, double> search::dijkstra(knn_graph &g, int st, int t
         std::greater<std::pair<double, int>>
     > pq;
 
-    std::vector<double> dist(n, -1.0);
+    std::vector<double> dist(n, MAXFLOAT);
     std::vector<double> walked_increment(n, 0.0);
     std::vector<int> par(n, -1);
 
@@ -31,12 +31,14 @@ std::pair<std::vector<int>, double> search::dijkstra(knn_graph &g, int st, int t
         }
 
         for(auto &[next, weight]: g.edges[curr]) {
-            if(dist[next] == -1.0 || dist[next] > dist[curr] + weight) {
+            if(par[next] == -1) {
+                pq.emplace(dist[curr] + weight, next);
+                walked_increment[next] = weight;
+            }
+
+            if(dist[next] > dist[curr] + weight) {
                 dist[next] = dist[curr] + weight;
                 par[next] = curr;
-                walked_increment[next] = weight;
-
-                pq.emplace(dist[next], next);
             }
         }
     }
