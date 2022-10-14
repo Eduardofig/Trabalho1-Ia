@@ -1,8 +1,8 @@
 #include "dijkstra.hpp"
 
-std::pair<std::vector<int>, double> search::dijkstra(knn_graph &g, int st, int target)
+std::pair<std::vector<int>, double> search::dijkstra(knn_graph &graph, int st, int target)
 {
-    int n = g.vertices.size();
+    int n = graph.vertices.size();
     std::priority_queue<
         std::pair<double, int>,
         std::vector<std::pair<double, int>>,
@@ -30,9 +30,11 @@ std::pair<std::vector<int>, double> search::dijkstra(knn_graph &g, int st, int t
             break;
         }
 
-        for(auto &[next, weight]: g.edges[curr]) {
+        for(auto &[next, weight]: graph.edges[curr]) {
             if(par[next] == -1) {
-                pq.emplace(dist[curr] + weight, next);
+                // Custo g(x)
+                float g = dist[curr] + weight;
+                pq.emplace(g, next);
                 walked_increment[next] = weight;
             }
 

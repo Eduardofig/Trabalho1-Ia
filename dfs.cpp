@@ -1,6 +1,6 @@
 #include "dfs.hpp"
 
-void recurse_dfs(knn_graph &g, const int curr, const int target, std::vector<int> &par,
+void recurse_dfs(knn_graph &graph, const int curr, const int target, std::vector<int> &par,
         std::vector<double> &walked_increment, double &walked, bool &found)
 {
     if(curr == target || found) {
@@ -10,19 +10,19 @@ void recurse_dfs(knn_graph &g, const int curr, const int target, std::vector<int
 
     walked += walked_increment[curr];
 
-    for(auto &[next, weight]: g.edges[curr]) {
+    for(auto &[next, weight]: graph.edges[curr]) {
         if(par[next] == -1) {
             par[next] = curr;
             walked_increment[next] = weight;
 
-            recurse_dfs(g, next, target, par, walked_increment, walked, found);
+            recurse_dfs(graph, next, target, par, walked_increment, walked, found);
         }
     }
 }
 
-std::pair<std::vector<int>, double> search::dfs(knn_graph &g, int st, int target)
+std::pair<std::vector<int>, double> search::dfs(knn_graph &graph, int st, int target)
 {
-    int n = g.vertices.size();
+    int n = graph.vertices.size();
     bool found = false;
     std::vector<int> par(n, -1);
     std::vector<double> walked_increment(n, 0.0);
@@ -30,7 +30,7 @@ std::pair<std::vector<int>, double> search::dfs(knn_graph &g, int st, int target
     double walked = 0.0;
     par[st] = st;
 
-    recurse_dfs(g, st, target, par, walked_increment, walked, found);
+    recurse_dfs(graph, st, target, par, walked_increment, walked, found);
 
     std::vector<int> path;
 

@@ -1,41 +1,51 @@
 #include "astar.hpp"
 #include "aux.hpp"
 
-std::pair<std::vector<int>, double> search::best_first(knn_graph &g, int st, int target)
+std::pair<std::vector<int>, double> search::astar(knn_graph &graph, int st, int target)
 {
-    int n = g.vertices.size();
+    int n = graph.vertices.size();
     std::priority_queue<
         std::pair<double, int>,
         std::vector<std::pair<double, int>>,
         std::greater<std::pair<double, int>>
     > pq;
 
-    std::vector<double> dist(n, -1.0);
+    std::vector<double> dist(n, MAXFLOAT);
     std::vector<double> walked_increment(n, 0.0);
-    std::vector<int> par(n, -1.0);
+    std::vector<int> par(n, -1);
 
-    pq.emplace(0.0, st);
     dist[st] = 0.0;
+    pq.emplace(0.0, st);
     par[st] = st;
 
     double walked = 0.0;
     while(!pq.empty()) {
+
         int curr = pq.top().first;
         pq.pop();
+
+        walked += walked_increment[curr];
 
         if(curr == target) {
             break;
         }
 
-        walked += walked_increment[curr]
+        for(auto &[next, weight]: graph.edges[curr]) {
+            if(par[next] == -1) {
+                // Custo g(x)
+                double g = dist[curr] + weight;
+                // Heuristica h(x)
+                double h = aux::dist(next, target, graph.vertices);
 
-        for(auto &[next, weight]: g.edges[curr]) {
-            if(dist[next] == -1) {
-                dist[next] = dist[curr] + weight;
+                // Evaluation function f(x) = g(x) + h(x)
+                double f = g + h;
+                pq.emplace(f, next);
                 walked_increment[next] = weight;
-                par[next] = curr;
+            }
 
-                pq.emplace(aux::dist(next, st, g.vertices) + aux::dist(next, target, g.vertices), next);
+            if(dist[next] > dist[curr] + weight) {
+                dist[next] = dist[curr] + weight;
+                par[next] = curr;
             }
         }
     }
@@ -53,4 +63,4 @@ std::pair<std::vector<int>, double> search::best_first(knn_graph &g, int st, int
     std::reverse(path.begin(), path.end());
 
     return std::make_pair(path, walked);
-};
+}

@@ -1,21 +1,19 @@
 #include "best_first.hpp"
 #include "aux.hpp"
 
-std::pair<std::vector<int>, double> search::best_first(knn_graph &g, int st, int target)
+std::pair<std::vector<int>, double> search::best_first(knn_graph &graph, int st, int target)
 {
-    int n = g.vertices.size();
+    int n = graph.vertices.size();
     std::priority_queue<
         std::pair<double, int>,
         std::vector<std::pair<double, int>>,
         std::greater<std::pair<double, int>>
     > pq;
 
-    std::vector<double> dist(n, -1.0);
     std::vector<double> walked_increment(n, 0.0);
-    std::vector<int> par(n, -1.0);
+    std::vector<int> par(n, -1);
 
     pq.emplace(0.0, st);
-    dist[st] = 0.0;
     par[st] = st;
 
     double walked = 0.0;
@@ -23,16 +21,16 @@ std::pair<std::vector<int>, double> search::best_first(knn_graph &g, int st, int
         int curr = pq.top().first;
         pq.pop();
 
-
         if(curr == target) {
             break;
         }
 
-        for(auto &[next, weight]: g.edges[curr]) {
-            if(dist[next] == -1.0) {
-                dist[next] = dist[curr] + weight;
+        for(auto &[next, weight]: graph.edges[curr]) {
+            if(par[next] == -1) {
                 walked_increment[next] = weight;
-                pq.emplace(aux::dist(next, target, g.vertices), next);
+                // Heuristica h(x)
+                float h = aux::dist(next, target, graph.vertices);
+                pq.emplace(h, next);
             }
         }
     }
