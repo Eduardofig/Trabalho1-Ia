@@ -33,8 +33,11 @@ std::pair<std::vector<int>, double> search::a_algorithm(knn_graph &graph, int st
 
         for(auto &[next, weight]: graph.edges[curr]) {
             if(par[next] == -1) {
+                par[next] = curr;
+                dist[next] = dist[curr] + weight;
+
                 // Custo g(x)
-                double g = dist[curr] + weight;
+                double g = dist[next];
                 // Heuristica h(x)
                 double h = aux::dist(next, target, graph.vertices);
 
@@ -42,11 +45,6 @@ std::pair<std::vector<int>, double> search::a_algorithm(knn_graph &graph, int st
                 double f = g + h;
                 pq.emplace(f, next);
                 walked_increment[next] = weight;
-            }
-
-            if(dist[next] > dist[curr] + weight) {
-                dist[next] = dist[curr] + weight;
-                par[next] = curr;
             }
         }
     }

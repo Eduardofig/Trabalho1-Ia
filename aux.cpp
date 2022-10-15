@@ -105,6 +105,22 @@ void aux::run_experiment(knn_graph &graph, int st, int target)
         std::cout << '-';
     }
 
+    std::cout << "\nA:\n";
+    const auto &[a_path, a_walked] = search::a_algorithm(graph, st, target);
+
+    if(a_path.front() == -1) {
+        std::cout << " Node " << (target + 1) << " is not reachable from  Node " << (st + 1) << '\n';
+    } else {
+        const double a_dist = aux::get_path_distance(graph, a_path);
+        aux::print_path(a_path);
+        std::cout << "Distance: " << a_dist << '\n';
+        std::cout << "Walked: " << a_walked << '\n';
+    }
+
+    for(int i = 0; i < 100; ++i) {
+        std::cout << '-';
+    }
+
     std::cout << "\nA*:\n";
     const auto &[astar_path, astar_walked] = search::astar(graph, st, target);
 

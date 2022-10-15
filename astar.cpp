@@ -42,6 +42,7 @@ std::pair<std::vector<int>, double> search::astar(knn_graph &graph, int st, int 
                 walked_increment[next] = weight;
             }
 
+            // Atualizacao da distancia para manter a heuristica optimista g*
             if(dist[next] > dist[curr] + weight) {
                 dist[next] = dist[curr] + weight;
                 par[next] = curr;
