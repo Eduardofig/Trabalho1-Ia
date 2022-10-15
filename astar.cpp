@@ -20,8 +20,7 @@ std::pair<std::vector<int>, double> search::astar(knn_graph &graph, int st, int 
 
     double walked = 0.0;
     while(!pq.empty()) {
-
-        int curr = pq.top().first;
+        int curr = pq.top().second;
         pq.pop();
 
         walked += walked_increment[curr];

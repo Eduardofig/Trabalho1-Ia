@@ -21,7 +21,7 @@ std::pair<std::vector<int>, double> search::dijkstra(knn_graph &graph, int st, i
     double walked = 0.0;
     while(!pq.empty()) {
 
-        int curr = pq.top().first;
+        int curr = pq.top().second;
         pq.pop();
 
         walked += walked_increment[curr];
