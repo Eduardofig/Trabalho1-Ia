@@ -18,7 +18,7 @@ int main()
     for(int i = 0; i < 100; ++i) {
         std::cout << '-';
     }
-    std::cout << "\nEdges:\n";
+    std::cout << '\n';
     g.print_edges();
 
     for(int i = 0; i < 100; ++i) {
