@@ -12,4 +12,17 @@ namespace aux
 
         return sqrt(delta_x * delta_x + delta_y * delta_y);
     }
+    
+    void print_path(const std::vector<int> &path)
+    {
+        int n = path.size();
+        std::cout << "Path: ";
+        for(int i = 0; i < n; ++i) {
+            std::cout << (path[i] + 1);
+            if(i != n - 1) {
+                std::cout << "->";
+            }
+        }
+        std::cout << '\n';
+    }
 }

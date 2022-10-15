@@ -21,12 +21,15 @@ std::pair<std::vector<int>, double> search::best_first(knn_graph &graph, int st,
         int curr = pq.top().first;
         pq.pop();
 
+        walked += walked_increment[curr];
+
         if(curr == target) {
             break;
         }
 
         for(auto &[next, weight]: graph.edges[curr]) {
             if(par[next] == -1) {
+                par[next] = curr;
                 walked_increment[next] = weight;
                 // Heuristica h(x)
                 float h = aux::dist(next, target, graph.vertices);
