@@ -11,5 +11,5 @@ namespace aux
 {
     double dist(const int from, const int to, const std::vector<std::pair<int, int>> &vertices);
     void print_path(const std::vector<int> &path);
-    void run_experiment(knn_graph &g, int st, int target);
+    void run_experiment(knn_graph &graph, int st, int target);
 }
