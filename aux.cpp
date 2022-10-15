@@ -52,6 +52,17 @@ void aux::run_experiment(knn_graph &graph, int st, int target)
         std::cout << '-';
     }
 
+    std::cout << "\nBfs:\n";
+    const auto &[bfs_path, bfs_walked] = search::bfs(graph, st, target);
+    const double bfs_dist = aux::get_path_distance(graph, bfs_path);
+    aux::print_path(bfs_path);
+    std::cout << "Distance: " << bfs_dist << '\n';
+    std::cout << "Walked: " << bfs_walked << '\n';
+
+    for(int i = 0; i < 100; ++i) {
+        std::cout << '-';
+    }
+
     std::cout << "\nDijkstra:\n";
     const auto &[dijk_path, dijk_walked] = search::dijkstra(graph, st, target);
     const double dijk_dist = aux::get_path_distance(graph, dijk_path);
