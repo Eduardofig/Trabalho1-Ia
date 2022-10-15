@@ -51,6 +51,9 @@ std::pair<std::vector<int>, double> search::dijkstra(knn_graph &graph, int st, i
     path.push_back(target);
 
     while(curr != st) {
+        if(curr == -1) {
+            break;
+        }
         path.push_back(par[curr]);
         curr = par[curr];
     }

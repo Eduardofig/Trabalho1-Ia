@@ -55,6 +55,9 @@ std::pair<std::vector<int>, double> search::astar(knn_graph &graph, int st, int 
     path.push_back(target);
 
     while(curr != st) {
+        if(curr == -1) {
+            break;
+        }
         path.push_back(par[curr]);
         curr = par[curr];
     }

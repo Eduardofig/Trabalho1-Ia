@@ -34,6 +34,9 @@ std::pair<std::vector<int>, double> search::bfs(knn_graph &graph, int st, int ta
     path.push_back(target);
 
     while(curr != st) {
+        if(curr == -1) {
+            break;
+        }
         path.push_back(par[curr]);
         curr = par[curr];
     }
