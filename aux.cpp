@@ -28,6 +28,15 @@ void aux::run_experiment(knn_graph &graph, int st, int target)
 {
     int n = graph.vertices.size();
 
+    std::cout << "\n Running experiment starting from node " << st << " and ending at node " << target << '\n';
+
+    for(int i = 0; i < 100; ++i) {
+        std::cout << '-';
+    }
+
+    --st;
+    --target;
+
     if(target > n) {
         std::cerr << "Cannot react target from st\n";
     }
@@ -68,4 +77,23 @@ void aux::run_experiment(knn_graph &graph, int st, int target)
         std::cout << '-';
     }
 
+}
+
+void aux::print_graph(knn_graph &graph)
+{
+    for(int i = 0; i < 100; ++i) {
+        std::cout << '-';
+    }
+    std::cout << "\nGraph:\n";
+    graph.print_graph();
+
+    for(int i = 0; i < 100; ++i) {
+        std::cout << '-';
+    }
+    std::cout << '\n';
+    graph.print_edges();
+
+    for(int i = 0; i < 100; ++i) {
+        std::cout << '-';
+    }
 }
