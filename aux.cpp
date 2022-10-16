@@ -191,15 +191,14 @@ std::pair<double, double> aux::get_avg_time_dist(knn_graph &graph, int num_exper
         if(used.find(p) == used.end()) {
             auto start = high_resolution_clock::now();
 
-            auto [path, walked] = search_function(graph, st, target);
+            auto [_, walked] = search_function(graph, st, target);
 
             auto stop = high_resolution_clock::now();
 
-            long double dist = aux::get_path_distance(graph, path);
             long double time = (long double)duration_cast<microseconds>(stop - start).count();
 
             tot_time += time;
-            tot_dist += dist;
+            tot_dist += (long double) walked;
 
             used.insert(p);
         }

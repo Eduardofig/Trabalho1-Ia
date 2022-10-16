@@ -13,6 +13,6 @@ int main()
 
     std::cout << "\nDfs:\n";
     std::cout << "Average time : " << dfs_avg_time << " microseconds " << '\n';
-    std::cout << "Average distance : " << dfs_avg_dist << '\n';
+    std::cout << "Average distance walked: " << dfs_avg_dist << '\n';
 
 }
