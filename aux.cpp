@@ -172,3 +172,38 @@ double aux::get_path_distance(knn_graph &graph, const std::vector<int> &path)
 
     return dist;
 }
+std::pair<double, double> aux::get_avg_time_dist(knn_graph &graph, int num_experiments,
+        std::pair<std::vector<int>, double> (*search_function)(knn_graph&, int, int))
+{
+    using namespace std::chrono;
+
+    std::set<std::pair<int, int>> used;
+
+    int n = graph.edges.size();
+
+    long double tot_time = 0.0, tot_dist = 0.0;
+    for(int i = 0; i < num_experiments; ++i) {
+        int st = rand() % n;
+        int target = rand() % n;
+
+        std::pair<int, int> p = std::make_pair(st, target);
+
+        if(used.find(p) == used.end()) {
+            auto start = high_resolution_clock::now();
+
+            auto [path, walked] = search_function(graph, st, target);
+
+            auto stop = high_resolution_clock::now();
+
+            long double dist = aux::get_path_distance(graph, path);
+            long double time = (long double)duration_cast<microseconds>(stop - start).count();
+
+            tot_time += time;
+            tot_dist += dist;
+
+            used.insert(p);
+        }
+    }
+
+    return std::make_pair(tot_time / (long double) num_experiments, tot_dist / (long double) num_experiments);
+}
