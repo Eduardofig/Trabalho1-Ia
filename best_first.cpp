@@ -10,7 +10,6 @@ std::pair<std::vector<int>, double> search::best_first(knn_graph &graph, int st,
         std::greater<std::pair<double, int>>
     > pq;
 
-    std::vector<double> walked_increment(n, 0.0);
     std::vector<int> par(n, -1);
 
     pq.emplace(0.0, st);
@@ -21,7 +20,7 @@ std::pair<std::vector<int>, double> search::best_first(knn_graph &graph, int st,
         int curr = pq.top().second;
         pq.pop();
 
-        walked += walked_increment[curr];
+        walked += 1.0;
 
         if(curr == target) {
             break;
@@ -30,7 +29,6 @@ std::pair<std::vector<int>, double> search::best_first(knn_graph &graph, int st,
         for(auto &[next, weight]: graph.edges[curr]) {
             if(par[next] == -1) {
                 par[next] = curr;
-                walked_increment[next] = weight;
                 // Heuristica h(x)
                 float h = aux::dist(next, target, graph.vertices);
                 pq.emplace(h, next);

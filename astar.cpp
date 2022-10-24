@@ -11,7 +11,6 @@ std::pair<std::vector<int>, double> search::astar(knn_graph &graph, int st, int 
     > pq;
 
     std::vector<double> dist(n, MAXFLOAT);
-    std::vector<double> walked_increment(n, 0.0);
     std::vector<int> par(n, -1);
 
     dist[st] = 0.0;
@@ -23,7 +22,7 @@ std::pair<std::vector<int>, double> search::astar(knn_graph &graph, int st, int 
         int curr = pq.top().second;
         pq.pop();
 
-        walked += walked_increment[curr];
+        walked += 1.0;
 
         if(curr == target) {
             break;
@@ -39,7 +38,6 @@ std::pair<std::vector<int>, double> search::astar(knn_graph &graph, int st, int 
                 // Evaluation function f(x) = g(x) + h(x)
                 double f = g + h;
                 pq.emplace(f, next);
-                walked_increment[next] = weight;
             }
 
             // Atualizacao da distancia para manter a heuristica optimista g*

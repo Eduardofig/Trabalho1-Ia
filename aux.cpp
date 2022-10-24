@@ -172,7 +172,7 @@ double aux::get_path_distance(knn_graph &graph, const std::vector<int> &path)
 
     return dist;
 }
-std::pair<double, double> aux::get_avg_time_dist(knn_graph &graph, int num_experiments,
+std::tuple<double, double, double> aux::get_avg_time_dist(knn_graph &graph, int num_experiments,
         std::pair<std::vector<int>, double> (*search_function)(knn_graph&, int, int))
 {
     using namespace std::chrono;
@@ -181,7 +181,7 @@ std::pair<double, double> aux::get_avg_time_dist(knn_graph &graph, int num_exper
 
     int n = graph.edges.size();
 
-    long double avg_time = 0.0, avg_dist = 0.0;
+    long double avg_time = 0.0, avg_dist = 0.0, avg_walked = 0.0;
     for(int i = 0; i < num_experiments; ++i) {
         int st = rand() % n;
         int target = rand() % n;
@@ -193,18 +193,21 @@ std::pair<double, double> aux::get_avg_time_dist(knn_graph &graph, int num_exper
 
             auto [path, walked] = search_function(graph, st, target);
 
+            double distance = get_path_distance(graph, path);
+
             auto stop = high_resolution_clock::now();
 
             long double time = (long double)duration_cast<microseconds>(stop - start).count();
 
             if(path.front() != -1) {
                 avg_time += time / (long double) num_experiments;
-                avg_dist += (long double) walked / (long double) num_experiments;
+                avg_dist += (long double) distance / (long double) num_experiments;
+                avg_walked += (long double) walked / (long double) num_experiments;
             }
 
             used.insert(p);
         }
     }
 
-    return std::make_pair(avg_time, avg_dist);
+    return std::make_tuple(avg_time, avg_dist, avg_walked);
 }

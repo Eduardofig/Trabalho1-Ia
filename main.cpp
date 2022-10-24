@@ -16,10 +16,11 @@ int main()
         Cálculo da distância e tempo médios para os experimento 2, mudamos o algoritmo
         de busca em search:: e definimos quantas vezes queremos rodar para tirar as médias
     */ 
-    auto [avg_time, avg_dist] = aux::get_avg_time_dist(graph, 20, search::dfs);
+    auto [avg_time, avg_dist, avg_walked] = aux::get_avg_time_dist(graph, 20, search::dfs);
 
     std::cout << "\nCurrent Search:\n";
     std::cout << "Average time : " << avg_time << " microseconds " << '\n';
-    std::cout << "Average distance walked: " << avg_dist << '\n';
+    std::cout << "Average path distance: " << avg_dist << '\n';
+    std::cout << "Average nodes walked: " << avg_walked << '\n';
 
 }

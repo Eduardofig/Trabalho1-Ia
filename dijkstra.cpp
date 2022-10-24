@@ -10,7 +10,6 @@ std::pair<std::vector<int>, double> search::dijkstra(knn_graph &graph, int st, i
     > pq;
 
     std::vector<double> dist(n, MAXFLOAT);
-    std::vector<double> walked_increment(n, 0.0);
     std::vector<int> par(n, -1);
 
 
@@ -24,7 +23,7 @@ std::pair<std::vector<int>, double> search::dijkstra(knn_graph &graph, int st, i
         int curr = pq.top().second;
         pq.pop();
 
-        walked += walked_increment[curr];
+        walked += 1.0;
 
         if(curr == target) {
             break;
@@ -35,7 +34,6 @@ std::pair<std::vector<int>, double> search::dijkstra(knn_graph &graph, int st, i
                 // Custo g(x)
                 float g = dist[curr] + weight;
                 pq.emplace(g, next);
-                walked_increment[next] = weight;
             }
 
             if(dist[next] > dist[curr] + weight) {

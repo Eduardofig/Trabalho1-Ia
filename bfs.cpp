@@ -8,7 +8,6 @@ std::pair<std::vector<int>, double> search::bfs(knn_graph &graph, int st, int ta
     q.push(st);
 
     std::vector<int> par(n, -1);
-    std::vector<int> walked_increment(n, 0.0);
 
     par[st] = st;
 
@@ -17,12 +16,11 @@ std::pair<std::vector<int>, double> search::bfs(knn_graph &graph, int st, int ta
         int curr = q.front();
         q.pop();
 
-        walked += walked_increment[curr];
+        walked += 1.0;
 
         for(auto &[next, weight]: graph.edges[curr]) {
             if(par[next] == -1) {
                 par[next] = curr;
-                walked_increment[next] = weight;
                 q.push(next);
             }
         }

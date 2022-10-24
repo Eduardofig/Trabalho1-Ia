@@ -12,7 +12,6 @@ std::pair<std::vector<int>, double> search::a_algorithm(knn_graph &graph, int st
     > pq;
 
     std::vector<double> dist(n, MAXFLOAT);
-    std::vector<double> walked_increment(n, 0.0);
     std::vector<int> par(n, -1);
 
     dist[st] = 0.0;
@@ -25,7 +24,7 @@ std::pair<std::vector<int>, double> search::a_algorithm(knn_graph &graph, int st
         int curr = pq.top().second;
         pq.pop();
 
-        walked += walked_increment[curr];
+        walked += 1;
 
         if(curr == target) {
             break;
@@ -44,7 +43,6 @@ std::pair<std::vector<int>, double> search::a_algorithm(knn_graph &graph, int st
                 // Evaluation function f(x) = g(x) + h(x)
                 double f = g + h;
                 pq.emplace(f, next);
-                walked_increment[next] = weight;
             }
         }
     }
